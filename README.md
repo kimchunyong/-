@@ -1,4 +1,4 @@
-# node.js(express) + mongoDB 를 이용한 미니 프로젝트
+# node.js(express) + DB 를 이용한 미니 프로젝트
 
 ## 공부자료
 - [node.js](https://youtu.be/oF1Axvojy2A)
