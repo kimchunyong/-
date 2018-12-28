@@ -1,7 +1,8 @@
 # node.js(express) + mongoDB 를 이용한 미니 프로젝트
 
 ## 공부자료
-- node.js (https://youtu.be/oF1Axvojy2A)
+- [node.js](https://youtu.be/oF1Axvojy2A)
+- [node.js width mongoDB](https://codeburst.io/writing-a-crud-app-with-node-js-and-mongodb-e0827cbbdafb)
 
 ## 기능 명세
 
