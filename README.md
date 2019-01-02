@@ -10,6 +10,8 @@
 ## 공부자료
 - [node.js](https://youtu.be/oF1Axvojy2A)
 - [node.js width mongoDB](https://codeburst.io/writing-a-crud-app-with-node-js-and-mongodb-e0827cbbdafb)
+- [node.js 기본구조 구축](http://html5around.com/wordpress/tutorials/node-js-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0/)
+- [node.js API 서버 만들기](http://webframeworks.kr/tutorials/nodejs/api-server-by-nodejs-03/)
 
 ## 기능 명세
 
