@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <form action="/email_post" method="post">
+    <form action="/email_render" method="post">
         e-mail:<input type="text" name="email"><br />
         submit:<input type="submit">
     </form>
@@ -32,7 +32,6 @@
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(data);
             xhr.addEventListener('load', function () {
-                console.log(this.readyState)
                 var result = JSON.parse(xhr.responseText);
                 if (result.reslut !== 'ok' && this.readyState != 4 && this.status != 200) {
                     return;
