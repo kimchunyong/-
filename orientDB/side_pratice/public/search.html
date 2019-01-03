@@ -12,15 +12,13 @@
 <body>
     <form action="/search_post" method="post">
         <input class="search" type="text" name="search" placeholder="검색어를 입력해주세요.">
-        <ul class="suggestions">
-            <li>Filter for a city</li>
-            <li>or a state</li>
-        </ul>
+        <ul class="suggestions"></ul>
     </form>
 
     <div class="result"></div>
 
     <script>
+
         document.querySelector('.search').addEventListener('keypress', function (e) {
             var key = e.which || e.keyCode;
             if (key === 13) {
@@ -28,11 +26,9 @@
                 var inputdata = document.forms[0].elements[0].value;
                 sendAjax('http://127.0.0.1:3000/ajax_send_search', inputdata)
             }
-
         })
 
         function sendAjax(url, data) {
-            console.log(111)
             var data = { 'search': data };
             data = JSON.stringify(data);
             var xhr = new XMLHttpRequest();
@@ -40,11 +36,21 @@
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(data);
             xhr.addEventListener('load', function () {
-                var result = xhr.responseText;
-                document.querySelector(".result").innerHTML = result;
-
+                var result = JSON.parse(xhr.responseText);
+                if (result.result === 'ok') {
+                    var ul = document.querySelector('.suggestions');
+                    var li = document.createElement('li');
+                    var span = document.createElement('span');
+                    li.classList = 'list_item'
+                    li.textContent = result.search;
+                    span.textContent = 'x';
+                    span.classList = "list_del_btn"
+                    li.appendChild(span)
+                    ul.appendChild(li);
+                }
             })
         }
+
     </script>
 </body>
 

@@ -17,6 +17,11 @@ form{
     margin: 0 auto;
 }
 
+span{
+    cursor: pointer;
+    color:#512da8;
+}
+
 input {
     width: 100%;
     padding: 20px;
