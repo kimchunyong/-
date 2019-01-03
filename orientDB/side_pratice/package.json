@@ -1,17 +1,16 @@
 {
-  "name": "nodeserver",
+  "name": "search_ui",
   "version": "1.0.0",
-  "description": "nodeserver test",
+  "description": "연습",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "kimchunyong",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
-    "ejs": "^2.6.1",
     "express": "^4.16.4",
     "nodemon": "^1.18.9"
   }
