@@ -36,8 +36,6 @@
             xhr.send(data);
             xhr.addEventListener('load', function () {
                 var result = JSON.parse(xhr.responseText);
-                console.log(result)
-
                 var input = document.querySelector('.search');
                 var li = document.querySelector('li');
                 if (input.value.length) {
