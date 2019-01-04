@@ -63,7 +63,7 @@ input.search {
     margin: 3px 0 0 0;
     padding: 20px;
     transition: background 0.2s;
-    display: flex;
+    display: none;
     justify-content: space-between;
     align-items: center;
     text-transform: capitalize;

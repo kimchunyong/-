@@ -12,20 +12,19 @@
 <body>
     <form action="/search_post" method="post">
         <input class="search" type="text" name="search" placeholder="검색어를 입력해주세요.">
-        <ul class="suggestions"></ul>
+        <ul class="suggestions">
+            <li class="list"></li>
+        </ul>
     </form>
 
     <div class="result"></div>
 
     <script>
 
-        document.querySelector('.search').addEventListener('keypress', function (e) {
-            var key = e.which || e.keyCode;
-            if (key === 13) {
-                e.preventDefault();
-                var inputdata = document.forms[0].elements[0].value;
-                sendAjax('http://127.0.0.1:3000/ajax_send_search', inputdata)
-            }
+        document.querySelector('.search').addEventListener('keyup', function (e) {
+            e.preventDefault();
+            var inputdata = document.forms[0].elements[0].value;
+            sendAjax('http://127.0.0.1:3000/ajax_send_search', inputdata)
         })
 
         function sendAjax(url, data) {
@@ -37,16 +36,15 @@
             xhr.send(data);
             xhr.addEventListener('load', function () {
                 var result = JSON.parse(xhr.responseText);
-                if (result.result === 'ok') {
-                    var ul = document.querySelector('.suggestions');
-                    var li = document.createElement('li');
-                    var span = document.createElement('span');
-                    li.classList = 'list_item'
+                console.log(result)
+
+                var input = document.querySelector('.search');
+                var li = document.querySelector('li');
+                if (input.value.length) {
+                    li.style.display = "flex";
                     li.textContent = result.search;
-                    span.textContent = 'x';
-                    span.classList = "list_del_btn"
-                    li.appendChild(span)
-                    ul.appendChild(li);
+                } else {
+                    li.style.display = "none";
                 }
             })
         }
