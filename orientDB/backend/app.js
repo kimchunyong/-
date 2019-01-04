@@ -28,7 +28,7 @@ app.post('/ajax_send_email', function (req, res) {
     console.log(req.body.email);
     var responseData = { 'result': 'ok', 'email': req.body.email };
     res.json(responseData);
-})
+});
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!!!');
