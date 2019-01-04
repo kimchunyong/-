@@ -8,13 +8,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-app.post('/search_post', function (req, res) {
-    res.send('111')
-})
-
 app.post('/ajax_send_search', function (req, res) {
     var responseData = { 'result': 'ok', 'search': req.body.search }
-    console.log(responseData)
     res.json(responseData);
 });
 
