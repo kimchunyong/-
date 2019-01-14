@@ -101,11 +101,10 @@ var app = http.createServer(function (request, response) {
     } else if (pathname === '/update') {
         var filteredId = path.parse(queryData.id).base;
         db.query('SELECT * FROM topic WHERE id=?', [filteredId], function (err, topics) {
-            console.log(topics)
             var title = 'Update';
             var list = template.list(topics);
             var html = template.HTML(title, list,
-                `<form action="/create_process" method="post">
+                `<form action="/update_process" method="post">
                     <p>
                         <input type="text" name="title" placeholder="title" value=${topics[0].title}>
                     </p>
@@ -129,15 +128,13 @@ var app = http.createServer(function (request, response) {
         });
         request.on('end', function () {
             var post = qs.parse(body);
-            var id = post.id;
             var title = post.title;
             var description = post.description;
-            fs.rename(`data/${id}`, `data/${title}`, function (error) {
-                fs.writeFile(`data/${title}`, description, 'utf8', function (err) {
-                    response.writeHead(302, { Location: `/?id=${title}` });
-                    response.end();
-                })
-            });
+            console.log(description)
+            db.query(`UPDATE 'topic' SET title=?,description=?`, [title, description], function (error, topics) {
+                console.log(topics);
+            })
+
         });
     } else if (pathname === '/delete_process') {
         var body = '';
