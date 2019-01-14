@@ -131,9 +131,11 @@ var app = http.createServer(function (request, response) {
             var title = post.title;
             var description = post.description;
             console.log(description)
+            /*
             db.query(`UPDATE 'topic' SET title=?,description=?`, [title, description], function (error, topics) {
                 console.log(topics);
             })
+            */
 
         });
     } else if (pathname === '/delete_process') {
