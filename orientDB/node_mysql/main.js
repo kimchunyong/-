@@ -106,7 +106,9 @@ var app = http.createServer(function (request, response) {
                 var title = 'Update';
                 var list = template.list(topics);
                 var html = template.HTML(topics[0].title, list,
-                    `<form action="/update_process" method="post">
+                    `
+                    <a href="/create">create</a> <a href="/update?id=${topics[0].id}">update</a>
+                    <form action="/update_process" method="post">
                     <input type="hidden" name="id" placeholder="title" value=${topics[0].id}>
                     <p>
                         <input type="text" name="title" placeholder="title" value=${topics[0].title}>
@@ -118,7 +120,6 @@ var app = http.createServer(function (request, response) {
                         <input type="submit">
                     </p>
                 </form>
-                <a href="/create">create</a><a href="/update?id=${topics[0].id}">update</a>
                 `, '');
                 response.writeHead(200);
                 response.end(html);
@@ -136,7 +137,7 @@ var app = http.createServer(function (request, response) {
             var description = post.description;
             var id = post.id;
 
-            db.query(`UPDATE topic SET title='${title}',description='${description}' WHERE id = ${id}`, function (err, topics) {
+            db.query(`UPDATE topic SET title='${title}',description='${description}' WHERE id = ?`, [id], function (err, topics) {
                 if (err) throw err;
                 response.writeHead(302, { Location: `/` });
                 response.end();
@@ -150,8 +151,8 @@ var app = http.createServer(function (request, response) {
         request.on('end', function () {
             var post = qs.parse(body);
             var id = post.id;
-            var filteredId = path.parse(id).base;
-            fs.unlink(`data/${filteredId}`, function (error) {
+            db.query('DELETE FROM topic WHERE id=?', [id], function (err2, topics) {
+                if (err2) throw err2;
                 response.writeHead(302, { Location: `/` });
                 response.end();
             })
