@@ -74,15 +74,12 @@ var app = http.createServer(function (request, response) {
                             <textarea name="description" placeholder="description"></textarea>
                         </p>
                         <p>
-                            <select name="author">
-                                ${template.authorSelect(authors)}
-                            </select>
+                            ${template.authorSelect(authors)}
                         </p>
                         <p>
                             <input type="submit">
                         </p>
                     </form>
-                    <a href="/create">create</a>
                     `, '');
                 response.writeHead(200);
                 response.end(html);
@@ -112,26 +109,31 @@ var app = http.createServer(function (request, response) {
             if (err) throw err;
             db.query('SELECT * FROM topic WHERE id=?', [queryData.id], function (err2, topics) {
                 if (err2) throw err2;
-                var title = 'Update';
-                var list = template.list(topics);
-                var html = template.HTML(topics[0].title, list,
-                    `
-                    <a href="/create">create</a> <a href="/update?id=${topics[0].id}">update</a>
-                    <form action="/update_process" method="post">
-                    <input type="hidden" name="id" placeholder="title" value=${topics[0].id}>
-                    <p>
-                        <input type="text" name="title" placeholder="title" value=${topics[0].title}>
-                    </p>
-                    <p>
-                        <textarea name="description" placeholder="description">${topics[0].description}</textarea>
-                    </p>
-                    <p>
-                        <input type="submit">
-                    </p>
-                </form>
-                `, '');
-                response.writeHead(200);
-                response.end(html);
+                db.query('SELECT * FROM author', function (err, authors) {
+                    var title = 'Update';
+                    var list = template.list(topics);
+                    var html = template.HTML(topics[0].title, list,
+                        `
+                        <a href="/create">create</a> <a href="/update?id=${topics[0].id}">update</a>
+                        <form action="/update_process" method="post">
+                            <input type="hidden" name="id" placeholder="title" value=${topics[0].id}>
+                            <p>
+                                <input type="text" name="title" placeholder="title" value=${topics[0].title}>
+                            </p>
+                            <p>
+                                <textarea name="description" placeholder="description">${topics[0].description}</textarea>
+                            </p>
+                            <p>
+                                ${template.authorSelect(authors, topics[0].author_id)}
+                            </p>
+                            <p>
+                                <input type="submit">
+                            </p>
+                        </form>
+                        `, '');
+                    response.writeHead(200);
+                    response.end(html);
+                })
             })
         })
 
@@ -144,9 +146,10 @@ var app = http.createServer(function (request, response) {
             var post = qs.parse(body);
             var title = post.title;
             var description = post.description;
+            var authorId = post.author;
             var id = post.id;
 
-            db.query(`UPDATE topic SET title='${title}',description='${description}' WHERE id = ?`, [id], function (err, topics) {
+            db.query(`UPDATE topic SET title='${title}',description='${description}',author_id='${authorId}' WHERE id = ?`, [id], function (err, topics) {
                 if (err) throw err;
                 response.writeHead(302, { Location: `/` });
                 response.end();

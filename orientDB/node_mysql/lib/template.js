@@ -23,15 +23,20 @@ module.exports = {
         }
         list = list + '</ul>';
         return list;
-    }, authorSelect: function (authors) {
-        var select = '<select name="author">';
-        var select = '';
+    }, authorSelect: function (authors, author_id) {
+
+        var tag = '';
         var i = 0;
         while (i < authors.length) {
-            select += `<option value="${authors[i].id}">${authors[i].name}</option>`
+            var selected = '';
+            if (authors[i].id === author_id) {
+                selected = ' selected';
+            }
+            tag += `<option value="${authors[i].id}" ${selected}>${authors[i].name}</option>`
             i++;
         }
-        select = select + '</select>'
-        return select;
+        return `<select name="author">
+            ${tag}
+        </select>`;
     }
 }
