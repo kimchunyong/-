@@ -99,12 +99,15 @@ var app = http.createServer(function (request, response) {
             )
         });
     } else if (pathname === '/update') {
-        var filteredId = path.parse(queryData.id).base;
-        db.query('SELECT * FROM topic WHERE id=?', [filteredId], function (err, topics) {
-            var title = 'Update';
-            var list = template.list(topics);
-            var html = template.HTML(title, list,
-                `<form action="/update_process" method="post">
+        db.query(`SELECT * FROM topic`, function (err, topics) {
+            if (err) throw err;
+            db.query('SELECT * FROM topic WHERE id=?', [queryData.id], function (err2, topics) {
+                if (err2) throw err2;
+                var title = 'Update';
+                var list = template.list(topics);
+                var html = template.HTML(topics[0].title, list,
+                    `<form action="/update_process" method="post">
+                    <input type="hidden" name="id" placeholder="title" value=${topics[0].id}>
                     <p>
                         <input type="text" name="title" placeholder="title" value=${topics[0].title}>
                     </p>
@@ -115,10 +118,11 @@ var app = http.createServer(function (request, response) {
                         <input type="submit">
                     </p>
                 </form>
-                <a href="/create">create</a>
+                <a href="/create">create</a><a href="/update?id=${topics[0].id}">update</a>
                 `, '');
-            response.writeHead(200);
-            response.end(html);
+                response.writeHead(200);
+                response.end(html);
+            })
         })
 
     } else if (pathname === '/update_process') {
@@ -130,13 +134,13 @@ var app = http.createServer(function (request, response) {
             var post = qs.parse(body);
             var title = post.title;
             var description = post.description;
-            console.log(description)
-            /*
-            db.query(`UPDATE 'topic' SET title=?,description=?`, [title, description], function (error, topics) {
-                console.log(topics);
-            })
-            */
+            var id = post.id;
 
+            db.query(`UPDATE topic SET title='${title}',description='${description}' WHERE id = ${id}`, function (err, topics) {
+                if (err) throw err;
+                response.writeHead(302, { Location: `/` });
+                response.end();
+            });
         });
     } else if (pathname === '/delete_process') {
         var body = '';
