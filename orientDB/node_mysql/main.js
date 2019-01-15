@@ -151,8 +151,8 @@ var app = http.createServer(function (request, response) {
         request.on('end', function () {
             var post = qs.parse(body);
             var id = post.id;
-            db.query('DELETE FROM topic WHERE id=?', [id], function (err2, topics) {
-                if (err2) throw err2;
+            db.query('DELETE FROM topic WHERE id=?', [id], function (err, topics) {
+                if (err) throw err;
                 response.writeHead(302, { Location: `/` });
                 response.end();
             })
