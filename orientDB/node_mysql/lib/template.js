@@ -1,19 +1,20 @@
 module.exports = {
     HTML: function (title, list, body) {
         return `
-    <!doctype html>
-    <html>
-    <head>
-      <title>WEB1 - ${title}</title>
-      <meta charset="utf-8">
-    </head>
-    <body>
-      <h1><a href="/">WEB</a></h1>
-      ${list}
-      ${body}
-    </body>
-    </html>
-    `;
+        <!doctype html>
+        <html>
+            <head>
+                <title>WEB1 - ${title}</title>
+                <meta charset="utf-8">
+            </head>
+            <body>
+                <h1><a href="/">WEB</a></h1>
+                <a href="/author">author</a>
+                ${list}
+                ${body}
+            </body>
+        </html>
+        `;
     }, list: function (topics) {
         var list = '<ul>';
         var i = 0;
@@ -38,5 +39,21 @@ module.exports = {
         return `<select name="author">
             ${tag}
         </select>`;
+    }, authorTable: function (authors) {
+        var tag = '<table>';
+        var i = 0;
+        while (i < authors.length) {
+            tag += `
+                <tr>
+                    <td>${authors[i].name}</td>
+                    <td>${authors[i].profile}</td>
+                    <td><input type="submit" value='update'/></td>
+                    <td><input type="submit" value='delete'/></td>
+                </tr>
+                `
+            i++;
+        }
+        tag += '</table>'
+        return tag;
     }
 }
