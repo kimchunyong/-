@@ -16,6 +16,18 @@ exports.home = function (request, response) {
                     table{border-collapse:collapse;}
                     td{padding:4px 8px;border:1px solid #000;}
                 </style>
+
+                <form action="create_author_process" method="post">
+                    <p>
+                        <input type="text" name="name" placeholder="name"/>
+                    </p>
+                    <p>
+                        <textarea name="profile" placeholder="description"></textarea>
+                    </p>
+                    <p>
+                        <input type="submit"/>
+                    </p>
+                <form>
                 `
             );
             response.writeHead(200);
@@ -23,3 +35,24 @@ exports.home = function (request, response) {
         });
     });
 };
+
+exports.create_author = function (request, response) {
+    var body = '';
+    request.on('data', function (data) {
+        body = body + data;
+    });
+    request.on('end', function () {
+        var post = qs.parse(body);
+        var name = post.name;
+        var profile = post.profile;
+        db.query(`INSERT INTO author (name,profile)
+            VALUE(?,?)`,
+            [name, profile]
+            , function (error, result) {
+                if (error) throw error;
+                response.writeHead(302, { Location: `/author` });
+                response.end();
+            }
+        )
+    });
+}
