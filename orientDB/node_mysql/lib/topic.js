@@ -2,6 +2,7 @@ var template = require('./template.js');
 var db = require('./db');
 var url = require('url');
 var qs = require('querystring');
+var sanitizeHtml = require('sanitize-html')
 
 exports.home = function (request, response) {
     db.query('SELECT * FROM topic', function (error, topics) {
@@ -33,7 +34,7 @@ exports.page = function (request, response) {
             var list = template.list(topics);
             var html = template.HTML(title, list,
                 `
-                <h2>${title}</h2>${description} <p>작성자: ${topic[0].name}</p>,
+                <h2>${sanitizeHtml(title)}</h2>${sanitizeHtml(description)} <p>작성자: ${sanitizeHtml(topic[0].name)}</p>,
                 <a href="/create">create</a>
                 <a href="/update?id=${queryData.id}">update</a>
                 <form action="delete_process" method="post">

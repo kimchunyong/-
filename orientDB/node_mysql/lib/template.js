@@ -51,7 +51,7 @@ module.exports = {
                     <td>
                         <form action="/author/delete_process" method="post">
                             <input type="hidden" name="id" value="${authors[i].id}"/>
-                            <input type="submit" value="삭제"/>    
+                            <input type="submit" value="삭제"/>
                         </form>
                     </td>
                 </tr>
