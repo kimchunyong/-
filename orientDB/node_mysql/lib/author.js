@@ -2,6 +2,7 @@ var template = require('./template.js');
 var db = require('./db');
 var url = require('url');
 var qs = require('querystring');
+var sanitizeHtml = require('sanitize-html');
 
 exports.home = function (request, response) {
     db.query('SELECT * FROM topic', function (error, topics) {
@@ -76,13 +77,13 @@ exports.update = function (request, response) {
 
                 <form action="/author/update_process" method="post">
                     <p>
-                        <input type="hidden" name="id" value="${queryData.id}">
+                        <input type="hidden" name="id" value="${sanitizeHtml(queryData.id)}">
                     </p>
                     <p>
-                        <input type="text" name="name" value="${authors[0].name}" placeholder="name"/>
+                        <input type="text" name="name" value="${sanitizeHtml(authors[0].name)}" placeholder="name"/>
                     </p>
                     <p>
-                        <textarea name="profile" placeholder="description">${authors[0].profile}</textarea>
+                        <textarea name="profile" placeholder="description">${sanitizeHtml(authors[0].profile)}</textarea>
                     </p>
                     <p>
                         <input type="submit"value="수정"/>
