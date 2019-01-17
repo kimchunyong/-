@@ -22,4 +22,4 @@ exports.home = function (request, response) {
             response.end(html);
         });
     });
-}
+};
