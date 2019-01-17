@@ -111,5 +111,24 @@ exports.update_process = function (request, response) {
                 response.writeHead(302, { Location: `/author` });
                 response.end();
             });
-    })
+    });
+}
+
+exports.delete_process = function (request, response) {
+    var body = '';
+    request.on('data', function (data) {
+        body = body + data;
+    });
+    request.on('end', function () {
+        var post = qs.parse(body);
+        var id = post.id;
+        console.log(id)
+        db.query(`DELETE FROM author WHERE id=?`, [id], function (error, result) {
+            if (error) throw error;
+            console.log(result);
+            response.writeHead(302, { Location: `/author` });
+            response.end();
+        })
+
+    });
 }

@@ -48,7 +48,12 @@ module.exports = {
                     <td>${authors[i].name}</td>
                     <td>${authors[i].profile}</td>
                     <td><a href="/author/update?id=${authors[i].id}">수정</a></td>
-                    <td><input type="submit" value='삭제'/></td>
+                    <td>
+                        <form action="/author/delete_process" method="post">
+                            <input type="hidden" name="id" value="${authors[i].id}"/>
+                            <input type="submit" value="삭제"/>    
+                        </form>
+                    </td>
                 </tr>
                 `
             i++;
