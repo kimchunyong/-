@@ -122,13 +122,13 @@ exports.delete_process = function (request, response) {
     request.on('end', function () {
         var post = qs.parse(body);
         var id = post.id;
-        console.log(id)
-        db.query(`DELETE FROM author WHERE id=?`, [id], function (error, result) {
-            if (error) throw error;
-            console.log(result);
-            response.writeHead(302, { Location: `/author` });
-            response.end();
+        db.query(`DELETE FROM topic WHERE author_id=?`, [id], function (error1, result1) {
+            if (error1) throw error1;
+            db.query(`DELETE FROM author WHERE id=?`, [id], function (error2, result2) {
+                if (error2) throw error2;
+                response.writeHead(302, { Location: `/author` });
+                response.end();
+            })
         })
-
     });
 }
